@@ -1,5 +1,6 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom"
 import Layout from "./layouts/Layout"
+import RegisterPage from "./pages/Register"
 
 function App() {
   return (
@@ -21,6 +22,17 @@ function App() {
             </Layout>
           } 
         />
+
+        <Route 
+          path={"/register"} 
+          element={
+            <Layout>
+              <RegisterPage />
+            </Layout>
+          } 
+        />
+
+        {/* Catch All Route */}
         <Route path={"*"} element={<Navigate to="/" />}/>
       </Routes>
     </BrowserRouter>

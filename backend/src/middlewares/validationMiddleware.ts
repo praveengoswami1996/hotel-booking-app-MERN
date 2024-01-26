@@ -16,3 +16,17 @@ export const validateRegistrationInput = [
         next(); //Pass the Control to Next Middleware in the Chain
     }
 ]
+
+export const validateLoginInput = [
+    body('email').not().isEmpty().withMessage("Email address is required").isEmail().withMessage("Please provide a valid email address"),
+    body('password').not().isEmpty().withMessage("Password is required").isLength({ min: 8, max: 20 }).withMessage("Password must be 8-20 characters long"),
+
+    //Function to handle the validation result
+    (req: Request, res: Response, next: NextFunction) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+        next(); //Pass the Control to Next Middleware in the Chain
+    }
+]

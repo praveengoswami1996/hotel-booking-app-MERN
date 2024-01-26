@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import "dotenv/config";
-import userRoutes from "./routes/userRoutes";
+import { userRoutes, authRoutes } from "./routes";
 import connectWithDB from "./config/dbConfig";
 
 //Creating an express instance
@@ -9,6 +9,14 @@ const app = express();
 
 //Connecting With MongoDB
 connectWithDB();
+
+//Cross Origin Resource Sharing Configuration
+const corsOptions = {
+    origin: 'http://localhost:5173',
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'HEAD'],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true, // enable credentials (cookies, etc.)
+};
 
 /* Middleware Chain Starts */
 
@@ -24,9 +32,10 @@ app.use(express.urlencoded({ extended: true }))
     { extended: true }: This is an option for the urlencoded middleware. When set to true, the values in the request.body object can be any type, not just strings. If set to false, the values are limited to strings and arrays.
 */
 
-app.use(cors())
+app.use(cors(corsOptions));
 
 
+app.use("/api/auth", authRoutes)
 app.use("/api/users", userRoutes);
 
 
